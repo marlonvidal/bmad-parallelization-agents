@@ -2,6 +2,8 @@
 
 > **Inject parallel Frontend/Backend development capabilities into any BMAD project with one command**
 
+**⚠️ BMAD v4.x Compatible** | *A v6.x version will be implemented later*
+
 ## 🚀 Quick Install
 
 Install these custom BMAD agents in your project:
@@ -155,9 +157,12 @@ Your existing agents will be backed up automatically.
 
 ## 📝 Requirements
 
+- **BMAD v4.x** - This patch is compatible with BMAD version 4.x
 - **Bash shell** (macOS, Linux, or Windows WSL/Git Bash)
 - **curl** or **wget** (one of them)
 - **Existing BMAD project** (or will create `.bmad-core/` structure)
+
+> **Note**: A version compatible with BMAD v6.x is planned for future implementation.
 
 ---
 

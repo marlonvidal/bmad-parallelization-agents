@@ -6,6 +6,10 @@
 # This script installs customized BMAD agents that support parallel 
 # Frontend/Backend development into any target project.
 #
+# Version: 1.0
+# Compatible with: BMAD v4.x
+# Note: A v6.x compatible version will be implemented later
+#
 # Usage:
 #   bash <(curl -fsSL YOUR_RAW_URL/install-bmad-parallel.sh)
 #
@@ -43,6 +47,7 @@ declare -a AGENT_FILES=(
 print_header() {
     echo -e "${BLUE}================================================${NC}"
     echo -e "${BLUE}  BMAD Parallel Agents Installer${NC}"
+    echo -e "${BLUE}  Compatible with BMAD v4.x${NC}"
     echo -e "${BLUE}================================================${NC}"
     echo ""
 }

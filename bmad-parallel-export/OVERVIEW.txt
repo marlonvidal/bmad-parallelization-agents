@@ -4,6 +4,9 @@
 ║                  BMAD PARALLEL AGENTS - EXPORT SYSTEM                        ║
 ║                       Installation Package v1.0                              ║
 ║                                                                              ║
+║                    ⚠️  BMAD v4.x Compatible                                  ║
+║                  (v6.x version coming in the future)                         ║
+║                                                                              ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

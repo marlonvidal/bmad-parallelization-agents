@@ -2,6 +2,8 @@
 
 > **One-command installation system for BMAD agents that support parallel Frontend/Backend development**
 
+**⚠️ BMAD v4.x Compatible** | *A v6.x version will be implemented later*
+
 ## 🚀 Quick Start
 
 Want to use these agents in your project? Run this one command:
@@ -95,6 +97,10 @@ This verifies the installation works correctly on your machine before sharing wi
 ✅ **Version Controlled** - Easy updates for all users  
 
 ---
+
+## ℹ️ Version Compatibility
+
+This package is designed for **BMAD v4.x**. A version compatible with BMAD v6.x will be implemented in the future.
 
 ## 📋 Files in This Package
 

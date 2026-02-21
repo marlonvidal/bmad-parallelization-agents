@@ -1,6 +1,8 @@
 # BMAD Parallel Agents - Export Package
 
-This directory contains customized BMAD agents that support **parallel Frontend/Backend development**. These agents can be injected into any existing or new BMAD project.
+**⚠️ BMAD v4.x Compatible** | *A v6.x version will be implemented later*
+
+This directory contains customized BMAD agents that support **parallel Frontend/Backend development**. These agents can be injected into any existing or new BMAD v4.x project.
 
 ## 📦 What's Included
 

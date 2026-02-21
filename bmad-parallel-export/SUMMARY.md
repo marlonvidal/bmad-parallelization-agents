@@ -1,5 +1,7 @@
 # 🎉 BMAD Parallel Export System - Creation Summary
 
+**⚠️ BMAD v4.x Compatible** | *A v6.x version will be implemented later*
+
 ## ✅ What Was Created
 
 ### 📁 Directory Structure

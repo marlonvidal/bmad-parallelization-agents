@@ -1,5 +1,7 @@
 # 🚀 Deployment Guide
 
+**⚠️ BMAD v4.x Compatible** | *A v6.x version will be implemented later*
+
 Your repository is ready to push to GitHub!
 
 ## ✅ What's Ready
@@ -9,6 +11,7 @@ Your repository is ready to push to GitHub!
 - ✅ Installation script configured and ready
 - ✅ Complete documentation in place
 - ✅ Main README.md created for repository
+- ✅ Version compatibility clearly marked (BMAD v4.x)
 
 ## 📋 Quick Deploy (3 Commands)
 

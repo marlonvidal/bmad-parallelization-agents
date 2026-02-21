@@ -1,5 +1,7 @@
 # BMAD Parallel Agents - Export Package Index
 
+**⚠️ BMAD v4.x Compatible** | *A v6.x version will be implemented later*
+
 ## 🎯 Start Here
 
 If you're new to this export package, **read the files in this order:**
@@ -124,15 +126,16 @@ If you're new to this export package, **read the files in this order:**
 
 ## 🔍 Quick Reference
 
-### File Sizes
+### Requirements
 ```
 Total package: ~52KB
 - Agent files: 36.9K (5 files)
 - Scripts: 9.9K (2 files)  
 - Docs: 18.0K (4 files)
-```
 
-### Requirements
+Compatible with: BMAD v4.x
+Note: v6.x version coming later
+```
 - **Bash shell** (macOS/Linux/WSL)
 - **curl** or **wget**
 - **Git** (for hosting on GitHub)

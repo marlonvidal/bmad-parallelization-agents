@@ -1,5 +1,7 @@
 # 🚀 Quick Start Guide - BMAD Parallel Agents Export
 
+**⚠️ BMAD v4.x Compatible** | *A v6.x version will be implemented later*
+
 ## 📦 What You Have
 
 You now have a complete **BMAD Parallel Agents Export System** in the `bmad-parallel-export/` directory!
