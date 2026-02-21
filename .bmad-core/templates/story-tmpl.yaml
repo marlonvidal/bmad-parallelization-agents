@@ -1,4 +1,5 @@
 # <!-- Powered by BMAD™ Core -->
+# ENHANCED with Standardized Dependency Format
 template:
   id: story-template-v2
   name: Story Document
@@ -56,14 +57,22 @@ sections:
     title: Dependencies and Parallelism
     type: template-text
     instruction: |
-      MANDATORY: Classify the story for parallel delivery and bind it to its cross-layer contract.
+      MANDATORY ENHANCED SECTION: Classify the story for parallel delivery using standardized dependency format.
       This section must ensure frontend and backend stories can proceed independently.
+      
+      STANDARDIZED DEPENDENCY FORMAT:
+      - Use format: [Epic.Story] (Domain): Reason
+      - Example: "1.4 (Backend): Requires authentication middleware"
+      - Use "None" if no dependencies (expected default)
+      - Separate Frontend and Backend dependencies for clarity
     template: |
       - **Story Domain**: {{Frontend|Backend}}
       - **Paired Story**: {{epic.story reference/title}}
       - **Data Contract**: {{API/Schema contract reference that binds FE and BE}}
       - **Contract Readiness**: {{Defined by Architect|Updated version reference}}
-      - **Blocking Dependencies**: {{None by default; list only unavoidable dependencies}}
+      - **Blocking Dependencies**: 
+        - Frontend: {{None | [Epic.Story] (Domain): Reason}}
+        - Backend: {{None | [Epic.Story] (Domain): Reason}}
     elicit: true
     owner: scrum-master
     editors: [scrum-master]

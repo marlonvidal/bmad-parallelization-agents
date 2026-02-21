@@ -58,13 +58,11 @@ commands:
   - create-brownfield-epic: run task brownfield-create-epic.md
   - create-brownfield-prd: run task create-doc.md with template brownfield-prd-tmpl.yaml
   - create-brownfield-story: run task brownfield-create-story.md
-  - create-dependency-map: Generate visual dependency graphs showing epic/story relationships (task create-dependency-map.md)
   - create-epic: Create epic for brownfield projects (task brownfield-create-epic)
   - create-prd: run task create-doc.md with template prd-tmpl.yaml
   - create-story: Create user story from requirements (task brownfield-create-story)
   - doc-out: Output full document to current destination file
   - shard-prd: run the task shard-doc.md for the provided prd.md (ask if not found)
-  - validate-dependencies: Check for circular dependencies and validate story references (task validate-dependencies.md)
   - yolo: Toggle Yolo Mode
   - exit: Exit (confirm)
 dependencies:
@@ -78,13 +76,10 @@ dependencies:
     - brownfield-create-story.md
     - correct-course.md
     - create-deep-research-prompt.md
-    - create-dependency-map.md
     - create-doc.md
     - execute-checklist.md
     - shard-doc.md
-    - validate-dependencies.md
   templates:
     - brownfield-prd-tmpl.yaml
     - prd-tmpl.yaml
-    - story-tmpl.yaml
 ```

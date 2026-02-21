@@ -55,12 +55,9 @@ cd bmad-parallel-export
 
 ## 📖 Documentation Available
 
-- `README.md` - Main repository documentation (what visitors see first)
-- `bmad-parallel-export/README.md` - Package overview
-- `bmad-parallel-export/QUICKSTART.md` - Quick setup guide
-- `bmad-parallel-export/INDEX.md` - Navigation guide
-- `bmad-parallel-export/OVERVIEW.txt` - Visual overview
-- `bmad-parallel-export/README-export.md` - Complete documentation
+- `README.md` - Single comprehensive documentation (installation, features, examples, support)
+
+All documentation consolidated into one file for simplicity.
 
 ## 🎊 That's It!
 

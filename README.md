@@ -9,8 +9,10 @@
 Install these custom BMAD agents in your project:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/marlonvidal/bmad-parallelization-agents/main/bmad-parallel-export/install-bmad-parallel.sh)
+bash <(curl -fsSL "https://raw.githubusercontent.com/marlonvidal/bmad-parallelization-agents/main/bmad-parallel-export/install-bmad-parallel.sh?$(date +%s)")
 ```
+
+> **Note:** The `?$(date +%s)` parameter ensures you always get the latest version by bypassing any caches.
 
 This will install 5 customized BMAD agents that enable **parallel Frontend/Backend development**.
 
@@ -42,10 +44,36 @@ This will install 5 customized BMAD agents that enable **parallel Frontend/Backe
 ✅ **Contract-Based Development** - Frontend uses mocks based on API contracts  
 ✅ **Independent Stories** - Backend stories (API/DB) and Frontend stories (UI/UX) are separate  
 ✅ **Zero Wait Time** - Frontend doesn't wait for backend completion  
-✅ **Epic Dependency Tracking** - NEW: Visual graphs showing which epics can run in parallel  
-✅ **Dependency Validation** - NEW: Automated checks for circular dependencies  
-✅ **Standardized Format** - NEW: Clear `[Epic.Story] (Domain): Reason` dependency notation  
-✅ **One-Command Install** - No manual file management  
+✅ **Epic Dependency Tracking** - Visual graphs showing which epics can run in parallel  
+✅ **Dependency Validation** - Automated checks for circular dependencies  
+✅ **Standardized Format** - Clear `[Epic.Story] (Domain): Reason` dependency notation  
+✅ **One-Command Install** - No manual file management
+
+---
+
+## 🆕 What's New in v2.1
+
+### Epic Dependency Graph
+A new section in PRDs that explicitly documents which epics can run in parallel:
+
+| Epic | Prerequisite Epics | Can Parallel With | Rationale |
+|------|-------------------|------------------|-----------|
+| Epic 1 | None | All (once contracts defined) | Foundation setup |
+| Epic 2 | Epic 1 | Epic 3, 4 | Requires auth; independent domain |
+| Epic 3 | Epic 1 | Epic 2, 4 | Independent feature domain |
+
+### Standardized Dependency Format
+Enhanced story dependencies with clear, parseable format:
+
+```markdown
+- **Blocking Dependencies**: 
+  - Frontend: None (uses mocked auth from contract)
+  - Backend: 1.4 (Backend): Requires authentication middleware
+```
+
+### New PM/PO Commands
+- `*validate-dependencies` - Check for circular dependencies
+- `*create-dependency-map` - Generate visual Mermaid diagrams
 
 ---
 
@@ -100,15 +128,14 @@ bmad-parallelization-agents/
 
 ---
 
+---
+
 ## 📚 Documentation
 
-Complete documentation is available in the `bmad-parallel-export/` directory:
-
-- **[README.md](bmad-parallel-export/README.md)** - Main package documentation
-- **[ENHANCEMENTS.md](bmad-parallel-export/ENHANCEMENTS.md)** - NEW: Details on dependency tracking features
-- **[QUICKSTART.md](bmad-parallel-export/QUICKSTART.md)** - Quick setup guide
-- **[INDEX.md](bmad-parallel-export/INDEX.md)** - Navigation guide
-- **[OVERVIEW.txt](bmad-parallel-export/OVERVIEW.txt)** - Visual overview
+For developers wanting to understand the implementation details, check the source files:
+- Agent definitions: `.bmad-core/agents/*.md`
+- Enhanced templates: `.bmad-core/templates/*.yaml`
+- Validation tasks: `.bmad-core/tasks/*.md`
 
 ---
 
@@ -130,7 +157,7 @@ This creates a test project and verifies the installation works correctly.
 If you pull updates to this repository, just re-run the installation command in your project:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/marlonvidal/bmad-parallelization-agents/main/bmad-parallel-export/install-bmad-parallel.sh)
+bash <(curl -fsSL "https://raw.githubusercontent.com/marlonvidal/bmad-parallelization-agents/main/bmad-parallel-export/install-bmad-parallel.sh?$(date +%s)")
 ```
 
 Your existing agents will be backed up automatically.
@@ -183,7 +210,7 @@ Your existing agents will be backed up automatically.
 Install in your BMAD project now:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/marlonvidal/bmad-parallelization-agents/main/bmad-parallel-export/install-bmad-parallel.sh)
+bash <(curl -fsSL "https://raw.githubusercontent.com/marlonvidal/bmad-parallelization-agents/main/bmad-parallel-export/install-bmad-parallel.sh?$(date +%s)")
 ```
 
 ---

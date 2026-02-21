@@ -1,4 +1,5 @@
 # <!-- Powered by BMAD™ Core -->
+# ENHANCED with Epic Dependency Tracking and Standardized Dependency Format
 template:
   id: prd-template-v2
   name: Product Requirements Document
@@ -145,11 +146,34 @@ sections:
       - "Epic 3: User Workflows & Interactions: Enable key user journeys and business processes"
       - "Epic 4: Reporting & Analytics: Provide insights and data visualization for users"
 
+  - id: epic-dependency-graph
+    title: Epic Dependency Graph
+    instruction: |
+      ENHANCED FEATURE: Document dependencies between epics to enable project planning and parallel team allocation.
+      
+      CRITICAL FOR MULTI-DEVELOPER TEAMS: This section makes it crystal clear which epics can be executed in parallel and which have blocking dependencies.
+      
+      Default assumption: Epics can run in parallel unless explicitly constrained.
+      
+      For each epic, specify:
+      - **Prerequisite Epics**: Must be completed before this epic can start (use "None" or specific epic numbers)
+      - **Can Parallel With**: Epics that can be worked on simultaneously (use "All" or specific epic numbers)
+      - **Rationale**: Why the dependency exists or why parallel execution is safe
+      
+      IMPORTANT: Be conservative with dependencies - only list actual blocking dependencies, not nice-to-have sequences.
+    elicit: true
+    template: |
+      | Epic | Prerequisite Epics | Can Parallel With | Rationale |
+      |------|-------------------|------------------|-----------|
+      | Epic 1 | None | All (once contracts defined) | Foundation setup; API contracts enable parallel FE/BE work |
+      | Epic 2 | Epic 1 (contracts defined) | Epic 3, 4 | Requires auth system; independent feature domain |
+      | Epic 3 | Epic 1 (contracts defined) | Epic 2, 4 | Independent feature domain; no cross-epic dependencies |
+
   - id: epic-details
     title: Epic {{epic_number}} {{epic_title}}
     repeatable: true
     instruction: |
-      After the epic list is approved, present each epic with all its stories and acceptance criteria as a complete review unit.
+      After the epic list AND dependency graph are approved, present each epic with all its stories and acceptance criteria as a complete review unit.
 
       For each epic provide expanded goal (2-3 sentences describing the objective and value all the stories will achieve).
 
@@ -195,13 +219,22 @@ sections:
           - id: dependencies-parallelism
             title: Dependencies and Parallelism
             type: template-text
-            instruction: Mandatory section defining whether this is a Frontend or Backend story and the shared contract that enables independent parallel execution.
+            instruction: |
+              MANDATORY ENHANCED SECTION: Define domain, pairing, and dependencies using standardized format.
+              
+              STANDARDIZED DEPENDENCY FORMAT:
+              - Use format: [Epic.Story] (Domain): Reason
+              - Example: "1.4 (Backend): Requires authentication middleware"
+              - Use "None" if no dependencies (expected default)
+              - Separate Frontend and Backend dependencies
             template: |
               - **Story Domain**: {{Frontend|Backend}}
               - **Paired Story Reference**: {{paired_story_id_or_title}}
               - **Shared Data Contract**: {{API/Schema/GraphQL contract reference}}
               - **Mocking Requirement (Frontend only)**: {{required mock strategy from contract}}
-              - **Sequential Dependency**: {{None expected; document explicit exception only}}
+              - **Blocking Dependencies**: 
+                - Frontend: {{None | [Epic.Story] (Domain): Reason}}
+                - Backend: {{None | [Epic.Story] (Domain): Reason}}
 
   - id: checklist-results
     title: Checklist Results Report
