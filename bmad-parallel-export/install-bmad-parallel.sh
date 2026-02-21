@@ -40,6 +40,18 @@ declare -a AGENT_FILES=(
     "developer-back.md"
 )
 
+# Enhanced template files to download (these override .bmad-core/templates)
+declare -a TEMPLATE_OVERRIDES=(
+    "prd-tmpl.yaml"
+    "story-tmpl.yaml"
+)
+
+# Enhanced task files to download (these override .bmad-core/tasks)
+declare -a TASK_OVERRIDES=(
+    "validate-dependencies.md"
+    "create-dependency-map.md"
+)
+
 ################################################################################
 # Helper Functions
 ################################################################################
@@ -79,29 +91,39 @@ main() {
     print_step "Step 1: Detecting BMAD configuration..."
     
     BMAD_DIR=""
+    BMAD_ROOT=""
     
     if [ -d ".bmad-core/agents" ]; then
         BMAD_DIR=".bmad-core/agents"
+        BMAD_ROOT=".bmad-core"
         print_success "Found BMAD directory: .bmad-core/agents"
     elif [ -d ".bmad/agents" ]; then
         BMAD_DIR=".bmad/agents"
+        BMAD_ROOT=".bmad"
         print_success "Found BMAD directory: .bmad/agents"
     elif [ -d ".bmad-core" ]; then
         BMAD_DIR=".bmad-core/agents"
+        BMAD_ROOT=".bmad-core"
         print_info "Found .bmad-core but missing agents folder. Creating..."
         mkdir -p "$BMAD_DIR"
         print_success "Created directory: $BMAD_DIR"
     elif [ -d ".bmad" ]; then
         BMAD_DIR=".bmad/agents"
+        BMAD_ROOT=".bmad"
         print_info "Found .bmad but missing agents folder. Creating..."
         mkdir -p "$BMAD_DIR"
         print_success "Created directory: $BMAD_DIR"
     else
         print_info "No BMAD directory detected. Creating default structure..."
         BMAD_DIR=".bmad-core/agents"
+        BMAD_ROOT=".bmad-core"
         mkdir -p "$BMAD_DIR"
         print_success "Created directory: $BMAD_DIR"
     fi
+    
+    # Create templates and tasks directories
+    mkdir -p "${BMAD_ROOT}/templates"
+    mkdir -p "${BMAD_ROOT}/tasks"
     
     echo ""
     
@@ -178,7 +200,63 @@ main() {
     
     echo ""
     
-    # Step 5: Summary
+    # Step 5: Download and install enhanced template overrides
+    print_step "Step 5: Downloading and installing enhanced template overrides..."
+    
+    for file in "${TEMPLATE_OVERRIDES[@]}"; do
+        FILE_URL="${RAW_REPO_URL}/${file}"
+        TARGET_PATH="${BMAD_ROOT}/templates/${file}"
+        
+        print_info "Downloading: ${file}..."
+        
+        if [ "$DOWNLOAD_CMD" = "curl" ]; then
+            if curl -fsSL "$FILE_URL" -o "$TARGET_PATH"; then
+                print_success "Installed: templates/${file}"
+            else
+                print_error "Failed to download: ${file}"
+                DOWNLOAD_FAILED=true
+            fi
+        elif [ "$DOWNLOAD_CMD" = "wget" ]; then
+            if wget -q "$FILE_URL" -O "$TARGET_PATH"; then
+                print_success "Installed: templates/${file}"
+            else
+                print_error "Failed to download: ${file}"
+                DOWNLOAD_FAILED=true
+            fi
+        fi
+    done
+    
+    echo ""
+    
+    # Step 6: Download and install enhanced task overrides
+    print_step "Step 6: Downloading and installing enhanced task overrides..."
+    
+    for file in "${TASK_OVERRIDES[@]}"; do
+        FILE_URL="${RAW_REPO_URL}/${file}"
+        TARGET_PATH="${BMAD_ROOT}/tasks/${file}"
+        
+        print_info "Downloading: ${file}..."
+        
+        if [ "$DOWNLOAD_CMD" = "curl" ]; then
+            if curl -fsSL "$FILE_URL" -o "$TARGET_PATH"; then
+                print_success "Installed: tasks/${file}"
+            else
+                print_error "Failed to download: ${file}"
+                DOWNLOAD_FAILED=true
+            fi
+        elif [ "$DOWNLOAD_CMD" = "wget" ]; then
+            if wget -q "$FILE_URL" -O "$TARGET_PATH"; then
+                print_success "Installed: tasks/${file}"
+            else
+                print_error "Failed to download: ${file}"
+                DOWNLOAD_FAILED=true
+            fi
+        fi
+    done
+    
+    echo ""
+    
+    # Step 7: Summary
     print_step "Installation Summary"
     echo ""
     
@@ -206,6 +284,17 @@ main() {
         echo "  • po.md            - Product owner with parallel story support"
         echo "  • developer-front.md - Frontend-only developer with contract-based mocks"
         echo "  • developer-back.md  - Backend-only developer with API-first approach"
+        echo ""
+        echo "Enhanced features installed:"
+        echo "  • Epic Dependency Tracking - Track which epics can run in parallel"
+        echo "  • Story Dependency Validation - Detect circular dependencies"
+        echo "  • Dependency Map Generation - Visual Mermaid diagrams"
+        echo "  • Standardized Dependency Format - Clear [Epic.Story] (Domain): Reason format"
+        echo ""
+        echo "New PM/PO commands available:"
+        echo "  • *create-prd-enhanced - PRD with Epic Dependency Graph"
+        echo "  • *validate-dependencies - Check for circular dependencies"
+        echo "  • *create-dependency-map - Generate visual dependency diagrams"
         echo ""
         echo "These agents support parallel Frontend/Backend development!"
         echo ""

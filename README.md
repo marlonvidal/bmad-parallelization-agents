@@ -21,10 +21,18 @@ This will install 5 customized BMAD agents that enable **parallel Frontend/Backe
 | Agent | Purpose |
 |-------|---------|
 | `architect.md` | System architect with layer-based frontend/backend sharding |
-| `pm.md` | Product manager that generates parallel frontend/backend stories |
-| `po.md` | Product owner with parallel story support |
+| `pm.md` | Product manager that generates parallel frontend/backend stories **+ Epic Dependency Tracking** |
+| `po.md` | Product owner with parallel story support **+ Dependency Validation** |
 | `developer-front.md` | Frontend developer that works with contract-based mocks |
 | `developer-back.md` | Backend developer with API-first implementation |
+
+**Enhanced Templates (overrides `.bmad-core/templates/`):**
+- `prd-tmpl.yaml` - **NEW: Epic Dependency Graph section**
+- `story-tmpl.yaml` - **NEW: Standardized Dependency Format**
+
+**Enhanced Tasks (overrides `.bmad-core/tasks/`):**
+- `validate-dependencies.md` - **NEW: Validate circular dependencies**
+- `create-dependency-map.md` - **NEW: Generate visual Mermaid diagrams**
 
 ---
 
@@ -34,6 +42,9 @@ This will install 5 customized BMAD agents that enable **parallel Frontend/Backe
 ✅ **Contract-Based Development** - Frontend uses mocks based on API contracts  
 ✅ **Independent Stories** - Backend stories (API/DB) and Frontend stories (UI/UX) are separate  
 ✅ **Zero Wait Time** - Frontend doesn't wait for backend completion  
+✅ **Epic Dependency Tracking** - NEW: Visual graphs showing which epics can run in parallel  
+✅ **Dependency Validation** - NEW: Automated checks for circular dependencies  
+✅ **Standardized Format** - NEW: Clear `[Epic.Story] (Domain): Reason` dependency notation  
 ✅ **One-Command Install** - No manual file management  
 
 ---
@@ -94,6 +105,7 @@ bmad-parallelization-agents/
 Complete documentation is available in the `bmad-parallel-export/` directory:
 
 - **[README.md](bmad-parallel-export/README.md)** - Main package documentation
+- **[ENHANCEMENTS.md](bmad-parallel-export/ENHANCEMENTS.md)** - NEW: Details on dependency tracking features
 - **[QUICKSTART.md](bmad-parallel-export/QUICKSTART.md)** - Quick setup guide
 - **[INDEX.md](bmad-parallel-export/INDEX.md)** - Navigation guide
 - **[OVERVIEW.txt](bmad-parallel-export/OVERVIEW.txt)** - Visual overview

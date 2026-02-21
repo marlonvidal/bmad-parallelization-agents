@@ -58,11 +58,13 @@ persona:
 commands:
   - help: Show numbered list of the following commands to allow selection
   - correct-course: execute the correct-course task
+  - create-dependency-map: Generate visual dependency graphs showing epic/story relationships (task create-dependency-map.md)
   - create-epic: Create epic for brownfield projects (task brownfield-create-epic)
   - create-story: Create user story from requirements (task brownfield-create-story)
   - doc-out: Output full document to current destination file
   - execute-checklist-po: Run task execute-checklist (checklist po-master-checklist)
   - shard-doc {document} {destination}: run the task shard-doc against the optionally provided document to the specified destination
+  - validate-dependencies: Check for circular dependencies and validate story references (task validate-dependencies.md)
   - validate-story-draft {story}: run the task validate-next-story against the provided story file
   - yolo: Toggle Yolo Mode off on - on will skip doc section confirmations
   - exit: Exit (confirm)
@@ -72,8 +74,10 @@ dependencies:
     - po-master-checklist.md
   tasks:
     - correct-course.md
+    - create-dependency-map.md
     - execute-checklist.md
     - shard-doc.md
+    - validate-dependencies.md
     - validate-next-story.md
   templates:
     - story-tmpl.yaml
