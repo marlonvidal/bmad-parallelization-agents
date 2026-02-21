@@ -128,11 +128,13 @@ sections:
     instruction: |
       Present a high-level list of all epics for user approval. Each epic should have a title and a short (1 sentence) goal statement. This allows the user to review the overall structure before diving into details.
 
-      CRITICAL: Epics MUST be logically sequential following agile best practices:
+      CRITICAL: Epics MUST be structured for parallel Frontend/Backend execution:
 
-      - Each epic should deliver a significant, end-to-end, fully deployable increment of testable functionality
-      - Epic 1 must establish foundational project infrastructure (app setup, Git, CI/CD, core services) unless we are adding new functionality to an existing app, while also delivering an initial piece of functionality, even as simple as a health-check route or display of a simple canary page - remember this when we produce the stories for the first epic!
-      - Each subsequent epic builds upon previous epics' functionality delivering major blocks of functionality that provide tangible value to users or business when deployed
+      - Each feature capability must be represented by paired stories: one Backend story and one Frontend story
+      - Backend stories focus strictly on API, database, and business logic according to the architect-defined contract
+      - Frontend stories focus strictly on UI/UX and consume mocked contract-based data if backend delivery is not yet available
+      - Paired stories must be independent of sequential completion; contract definition is the only allowed prerequisite
+      - Epic 1 must establish contract-first foundations (API conventions, schema/versioning, mock strategy) and include at least one paired capability where feasible
       - Not every project needs multiple epics, an epic needs to deliver value. For example, an API completed can deliver value even if a UI is not complete and planned for a separate epic.
       - Err on the side of less epics, but let the user know your rationale and offer options for splitting them if it seems some are too large or focused on disparate things.
       - Cross Cutting Concerns should flow through epics and stories and not be final stories. For example, adding a logging framework as a last story of an epic, or at the end of a project as a final epic or story would be terrible as we would not have logging from the beginning.
@@ -151,17 +153,20 @@ sections:
 
       For each epic provide expanded goal (2-3 sentences describing the objective and value all the stories will achieve).
 
-      CRITICAL STORY SEQUENCING REQUIREMENTS:
+      CRITICAL STORY PARALLELIZATION REQUIREMENTS:
 
-      - Stories within each epic MUST be logically sequential
-      - Each story should be a "vertical slice" delivering complete functionality aside from early enabler stories for project foundation
-      - No story should depend on work from a later story or epic
-      - Identify and note any direct prerequisite stories
-      - Focus on "what" and "why" not "how" (leave technical implementation to Architect) yet be precise enough to support a logical sequential order of operations from story to story.
-      - Ensure each story delivers clear user or business value, try to avoid enablers and build them into stories that deliver value.
+      - NEVER create end-to-end vertical-slice stories
+      - For each capability, create paired stories: one Backend and one Frontend
+      - Backend stories define/implement APIs, schemas, and persistence aligned to the architecture contract
+      - Frontend stories implement UI/UX using the same contract and mocked data when backend is unavailable
+      - Every paired story set must include explicit contract references (route/schema/query/mutation identifiers)
+      - Stories must be independently executable by separate agents without sequential blocking dependencies
+      - Identify and note only unavoidable dependencies; default expectation is independent parallel execution
+      - Focus on "what" and "why" not "how" (leave technical implementation to Architect), but be precise about domain ownership and contract boundaries
+      - Ensure each story delivers clear user or business value while preserving strict Frontend/Backend ownership boundaries
       - Size stories for AI agent execution: Each story must be completable by a single AI agent in one focused session without context overflow
       - Think "junior developer working for 2-4 hours" - stories must be small, focused, and self-contained
-      - If a story seems complex, break it down further as long as it can deliver a vertical slice
+      - If a story seems complex, split into smaller paired Backend/Frontend stories bound to the same contract
     elicit: true
     template: "{{epic_goal}}"
     sections:
@@ -187,6 +192,16 @@ sections:
               - Consider local testability for backend/data components
               - Specify UI/UX requirements and framework adherence where applicable
               - Avoid cross-cutting concerns that should be in other stories or PRD sections
+          - id: dependencies-parallelism
+            title: Dependencies and Parallelism
+            type: template-text
+            instruction: Mandatory section defining whether this is a Frontend or Backend story and the shared contract that enables independent parallel execution.
+            template: |
+              - **Story Domain**: {{Frontend|Backend}}
+              - **Paired Story Reference**: {{paired_story_id_or_title}}
+              - **Shared Data Contract**: {{API/Schema/GraphQL contract reference}}
+              - **Mocking Requirement (Frontend only)**: {{required mock strategy from contract}}
+              - **Sequential Dependency**: {{None expected; document explicit exception only}}
 
   - id: checklist-results
     title: Checklist Results Report

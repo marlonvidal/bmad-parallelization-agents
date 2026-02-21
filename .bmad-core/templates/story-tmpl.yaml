@@ -17,6 +17,7 @@ agent_config:
     - Status
     - Story
     - Acceptance Criteria
+    - Dependencies and Parallelism
     - Tasks / Subtasks
     - Dev Notes
     - Testing
@@ -47,6 +48,22 @@ sections:
     title: Acceptance Criteria
     type: numbered-list
     instruction: Copy the acceptance criteria numbered list from the epic file
+    elicit: true
+    owner: scrum-master
+    editors: [scrum-master]
+
+  - id: dependencies-parallelism
+    title: Dependencies and Parallelism
+    type: template-text
+    instruction: |
+      MANDATORY: Classify the story for parallel delivery and bind it to its cross-layer contract.
+      This section must ensure frontend and backend stories can proceed independently.
+    template: |
+      - **Story Domain**: {{Frontend|Backend}}
+      - **Paired Story**: {{epic.story reference/title}}
+      - **Data Contract**: {{API/Schema contract reference that binds FE and BE}}
+      - **Contract Readiness**: {{Defined by Architect|Updated version reference}}
+      - **Blocking Dependencies**: {{None by default; list only unavoidable dependencies}}
     elicit: true
     owner: scrum-master
     editors: [scrum-master]

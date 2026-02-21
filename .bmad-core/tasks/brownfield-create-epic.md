@@ -10,7 +10,7 @@ Create a single epic for smaller brownfield enhancements that don't require the 
 
 **Use this task when:**
 
-- The enhancement can be completed in 1-3 stories
+- The enhancement can be completed in 2-6 stories organized as Frontend/Backend pairs
 - No significant architectural changes are required
 - The enhancement follows existing project patterns
 - Integration complexity is minimal
@@ -71,11 +71,26 @@ Create a focused epic following this structure:
 
 #### Stories
 
-List 1-3 focused stories that complete the epic:
+List focused stories that complete the epic using strict parallelization rules:
 
-1. **Story 1:** {{Story title and brief description}}
-2. **Story 2:** {{Story title and brief description}}
-3. **Story 3:** {{Story title and brief description}}
+- NEVER create end-to-end vertical-slice stories
+- For each capability, create a Backend story and a paired Frontend story
+- Backend story scope: API + database + business logic only
+- Frontend story scope: UI/UX consuming mocked data from the shared API contract
+
+1. **Story 1 (Backend):** {{Story title and brief description}}
+2. **Story 1 (Frontend):** {{Story title and brief description}}
+3. **Story 2 (Backend):** {{Story title and brief description}}
+4. **Story 2 (Frontend):** {{Story title and brief description}}
+
+#### Dependencies and Parallelism (Mandatory)
+
+For each paired story set, include:
+
+- **Story Domain:** Frontend or Backend
+- **Paired Story Reference:** Which story it is paired with
+- **Shared Data Contract:** Route/schema/query/mutation identifier that binds both stories
+- **Sequential Dependency:** Default is None; only document unavoidable blockers
 
 #### Compatibility Requirements
 
@@ -104,7 +119,7 @@ Before finalizing the epic, ensure:
 
 **Scope Validation:**
 
-- [ ] Epic can be completed in 1-3 stories maximum
+- [ ] Epic can be completed in 2-6 stories maximum, organized as Frontend/Backend pairs
 - [ ] No architectural documentation is required
 - [ ] Enhancement follows existing patterns
 - [ ] Integration complexity is manageable
@@ -122,6 +137,7 @@ Before finalizing the epic, ensure:
 - [ ] Stories are properly scoped
 - [ ] Success criteria are measurable
 - [ ] Dependencies are identified
+- [ ] Each story pair includes mandatory Dependencies and Parallelism details with shared contract references
 
 ### 4. Handoff to Story Manager
 
@@ -137,6 +153,7 @@ Once the epic is validated, provide this handoff to the Story Manager:
 - Integration points: {{list key integration points}}
 - Existing patterns to follow: {{relevant existing patterns}}
 - Critical compatibility requirements: {{key requirements}}
+- Every story must be explicitly labeled Frontend or Backend and linked by a shared data contract
 - Each story must include verification that existing functionality remains intact
 
 The epic should maintain system integrity while delivering {{epic goal}}."
@@ -150,13 +167,13 @@ The epic creation is successful when:
 1. Enhancement scope is clearly defined and appropriately sized
 2. Integration approach respects existing system architecture
 3. Risk to existing functionality is minimized
-4. Stories are logically sequenced for safe implementation
+4. Stories are organized into independent Frontend/Backend pairs bound to explicit data contracts
 5. Compatibility requirements are clearly specified
 6. Rollback plan is feasible and documented
 
 ## Important Notes
 
 - This task is specifically for SMALL brownfield enhancements
-- If the scope grows beyond 3 stories, consider the full brownfield PRD process
+- If the scope grows beyond 6 stories (or cannot be paired cleanly), consider the full brownfield PRD process
 - Always prioritize existing system integrity over new functionality
 - When in doubt about scope or complexity, escalate to full brownfield planning
