@@ -10,7 +10,7 @@ Create a single user story for very small brownfield enhancements that can be co
 
 **Use this task when:**
 
-- The enhancement can be completed in a single story
+- The enhancement can be completed in a single domain story (Frontend or Backend, not end-to-end)
 - No new architecture or significant design is required
 - The change follows existing patterns exactly
 - Integration is straightforward with minimal risk
@@ -70,6 +70,14 @@ So that {{clear benefit/value}}.
 - Follows pattern: {{existing pattern to follow}}
 - Touch points: {{specific integration points}}
 
+#### Dependencies and Parallelism (Mandatory)
+
+- **Story Domain:** {{Frontend|Backend}}
+- **Paired Story Reference:** {{paired story id/title}}
+- **Shared Data Contract:** {{API/Schema/GraphQL contract reference}}
+- **Mocking Requirement (Frontend only):** {{required mock strategy from contract}}
+- **Sequential Dependency:** {{None expected; document explicit exception only}}
+
 #### Acceptance Criteria
 
 **Functional Requirements:**
@@ -81,6 +89,7 @@ So that {{clear benefit/value}}.
 **Integration Requirements:** 4. Existing {{relevant functionality}} continues to work unchanged 5. New functionality follows existing {{pattern}} pattern 6. Integration with {{system/component}} maintains current behavior
 
 **Quality Requirements:** 7. Change is covered by appropriate tests 8. Documentation is updated if needed 9. No regression in existing functionality verified
+10. Story remains within declared domain boundaries (Frontend-only or Backend-only), not end-to-end implementation
 
 #### Technical Notes
 
@@ -96,6 +105,7 @@ So that {{clear benefit/value}}.
 - [ ] Code follows existing patterns and standards
 - [ ] Tests pass (existing and new)
 - [ ] Documentation updated if applicable
+- [ ] Dependencies and Parallelism details are present with an explicit shared data contract
 
 ### 3. Risk and Compatibility Check
 
@@ -129,6 +139,7 @@ Before finalizing the story, confirm:
 - [ ] Integration points are clearly specified
 - [ ] Success criteria are testable
 - [ ] Rollback approach is simple
+- [ ] Story is explicitly labeled Frontend or Backend and references its paired story and shared data contract
 
 ## Success Criteria
 

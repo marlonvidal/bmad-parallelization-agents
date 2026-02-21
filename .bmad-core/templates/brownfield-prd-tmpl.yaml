@@ -242,15 +242,17 @@ sections:
     instruction: |
       Comprehensive epic that delivers the brownfield enhancement while maintaining existing functionality
 
-      CRITICAL STORY SEQUENCING FOR BROWNFIELD:
+      CRITICAL STORY PARALLELIZATION FOR BROWNFIELD:
       - Stories must ensure existing functionality remains intact
-      - Each story should include verification that existing features still work
-      - Stories should be sequenced to minimize risk to existing system
-      - Include rollback considerations for each story
+      - NEVER create end-to-end vertical-slice stories
+      - For each capability, create paired stories: one Backend story and one Frontend story
+      - Backend stories are strictly for API, database, and business logic aligned to the approved architecture contract
+      - Frontend stories are strictly for UI/UX and consume mocked contract-based data when backend delivery is not yet available
+      - Include rollback considerations and integration verification for each story
       - Focus on incremental integration rather than big-bang changes
       - Size stories for AI agent execution in existing codebase context
-      - MANDATORY: Present the complete story sequence and ask: "This story sequence is designed to minimize risk to your existing system. Does this order make sense given your project's architecture and constraints?"
-      - Stories must be logically sequential with clear dependencies identified
+      - MANDATORY: Present the complete paired-story plan and ask: "This story pairing is designed for parallel frontend/backend execution with minimal dependency risk. Does this align with your project's architecture and constraints?"
+      - Dependencies must default to independent execution; document only unavoidable blocking dependencies
       - Each story must deliver value while maintaining system integrity
     template: |
       **Epic Goal**: {{epic_goal}}
@@ -270,6 +272,16 @@ sections:
             type: numbered-list
             instruction: Define criteria that include both new functionality and existing system integrity
             item_template: "{{criterion_number}}: {{criteria}}"
+          - id: dependencies-parallelism
+            title: Dependencies and Parallelism
+            type: template-text
+            instruction: Mandatory section defining Frontend/Backend ownership and the shared contract that enables independent execution.
+            template: |
+              - **Story Domain**: {{Frontend|Backend}}
+              - **Paired Story Reference**: {{paired_story_id_or_title}}
+              - **Shared Data Contract**: {{API/Schema/GraphQL contract reference}}
+              - **Mocking Requirement (Frontend only)**: {{required mock strategy from contract}}
+              - **Sequential Dependency**: {{None expected; document explicit exception only}}
           - id: integration-verification
             title: Integration Verification
             instruction: Specific verification steps to ensure existing functionality remains intact
