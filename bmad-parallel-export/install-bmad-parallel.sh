@@ -36,6 +36,7 @@ declare -a AGENT_FILES=(
     "architect.md"
     "pm.md"
     "po.md"
+    "sm.md"
     "developer-front.md"
     "developer-back.md"
 )
@@ -50,6 +51,16 @@ declare -a TEMPLATE_OVERRIDES=(
 declare -a TASK_OVERRIDES=(
     "validate-dependencies.md"
     "create-dependency-map.md"
+    "sync-to-jira.md"
+    "create-next-story.md"
+)
+
+# Documentation files to download
+declare -a DOC_FILES=(
+    "JIRA-SETUP.md"
+    "README-JIRA.md"
+    "jira-utils.md"
+    "core-config.yaml"
 )
 
 ################################################################################
@@ -124,6 +135,8 @@ main() {
     # Create templates and tasks directories
     mkdir -p "${BMAD_ROOT}/templates"
     mkdir -p "${BMAD_ROOT}/tasks"
+    mkdir -p "${BMAD_ROOT}/data"
+    mkdir -p "${BMAD_ROOT}/docs"
     
     echo ""
     
@@ -256,7 +269,35 @@ main() {
     
     echo ""
     
-    # Step 7: Summary
+    # Step 7: Download and install documentation files
+    print_step "Step 7: Downloading and installing documentation..."
+    
+    for file in "${DOC_FILES[@]}"; do
+        FILE_URL="${RAW_REPO_URL}/${file}"
+        TARGET_PATH="${BMAD_ROOT}/docs/${file}"
+        
+        print_info "Downloading: ${file}..."
+        
+        if [ "$DOWNLOAD_CMD" = "curl" ]; then
+            if curl -fsSL "$FILE_URL" -o "$TARGET_PATH"; then
+                print_success "Installed: docs/${file}"
+            else
+                print_error "Failed to download: ${file}"
+                DOWNLOAD_FAILED=true
+            fi
+        elif [ "$DOWNLOAD_CMD" = "wget" ]; then
+            if wget -q "$FILE_URL" -O "$TARGET_PATH"; then
+                print_success "Installed: docs/${file}"
+            else
+                print_error "Failed to download: ${file}"
+                DOWNLOAD_FAILED=true
+            fi
+        fi
+    done
+    
+    echo ""
+    
+    # Step 8: Summary
     print_step "Installation Summary"
     echo ""
     
@@ -280,8 +321,9 @@ main() {
         echo ""
         echo "Your project now has the following custom agents:"
         echo "  • architect.md     - Holistic system architect with frontend/backend sharding"
-        echo "  • pm.md            - Product manager with parallel story generation"
+        echo "  • pm.md            - Product manager with parallel story generation + Jira sync"
         echo "  • po.md            - Product owner with parallel story support"
+        echo "  • sm.md            - Scrum master with enhanced story drafting + Jira sync"
         echo "  • developer-front.md - Frontend-only developer with contract-based mocks"
         echo "  • developer-back.md  - Backend-only developer with API-first approach"
         echo ""
@@ -290,11 +332,18 @@ main() {
         echo "  • Story Dependency Validation - Detect circular dependencies"
         echo "  • Dependency Map Generation - Visual Mermaid diagrams"
         echo "  • Standardized Dependency Format - Clear [Epic.Story] (Domain): Reason format"
+        echo "  • Jira MCP Integration (Optional) - Sync PRD and stories to Jira"
         echo ""
-        echo "New PM/PO commands available:"
-        echo "  • *create-prd-enhanced - PRD with Epic Dependency Graph"
+        echo "New PM/SM commands available:"
+        echo "  • *create-prd - PRD with Epic Dependency Graph (optionally syncs to Jira)"
+        echo "  • *sync-to-jira - Sync PRD epics/stories to Jira (PM or SM agents)"
+        echo "  • *draft - Create next story with optional Jira updates (SM agent)"
         echo "  • *validate-dependencies - Check for circular dependencies"
         echo "  • *create-dependency-map - Generate visual dependency diagrams"
+        echo ""
+        echo "Jira Integration Setup:"
+        echo "  To enable optional Jira integration, see: ${BMAD_ROOT}/docs/JIRA-SETUP.md"
+        echo "  This is completely optional - all features work without Jira."
         echo ""
         echo "These agents support parallel Frontend/Backend development!"
         echo ""
