@@ -35,11 +35,11 @@ RAW_REPO_URL="https://raw.githubusercontent.com/marlonvidal/bmad-parallelization
 # Target path inside a BMAD v6 project (relative to project root)
 WORKFLOW_TARGET="_bmad/bmm/workflows/3-solutioning/bmad-create-epics-and-stories"
 
-# Files to download and their sub-paths within the workflow target
-declare -A WORKFLOW_FILES=(
-    ["steps/step-02-design-epics.md"]="steps/step-02-design-epics.md"
-    ["steps/step-03-create-stories.md"]="steps/step-03-create-stories.md"
-    ["templates/epics-template.md"]="templates/epics-template.md"
+# Files to download — sub-paths relative to WORKFLOW_TARGET (and to RAW_REPO_URL)
+declare -a WORKFLOW_FILES=(
+    "steps/step-02-design-epics.md"
+    "steps/step-03-create-stories.md"
+    "templates/epics-template.md"
 )
 
 ################################################################################
@@ -109,7 +109,7 @@ main() {
     BACKUP_DIR="${WORKFLOW_TARGET}/.backup-$(date +%Y%m%d-%H%M%S)"
     BACKUP_CREATED=false
 
-    for src_path in "${!WORKFLOW_FILES[@]}"; do
+    for src_path in "${WORKFLOW_FILES[@]}"; do
         TARGET_FILE="${WORKFLOW_TARGET}/${src_path}"
         if [ -f "$TARGET_FILE" ]; then
             if [ "$BACKUP_CREATED" = false ]; then
@@ -134,7 +134,7 @@ main() {
 
     DOWNLOAD_FAILED=false
 
-    for src_path in "${!WORKFLOW_FILES[@]}"; do
+    for src_path in "${WORKFLOW_FILES[@]}"; do
         FILE_URL="${RAW_REPO_URL}/${src_path}"
         TARGET_FILE="${WORKFLOW_TARGET}/${src_path}"
 
