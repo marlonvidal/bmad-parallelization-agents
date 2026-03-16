@@ -297,7 +297,7 @@ If successful, you should see Jira issues listed (or "no issues found" if projec
 
 **File**: `.bmad-core/core-config.yaml` in your BMAD project root
 
-If this file doesn't exist, copy from `bmad-parallel-export/core-config.yaml` template.
+If this file doesn't exist, copy from `v4/core-config.yaml` template.
 
 ### Step 2: Add Jira Configuration
 

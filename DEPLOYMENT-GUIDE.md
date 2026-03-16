@@ -39,7 +39,7 @@ git push -u origin main
 Your installation command will be:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/marlonvidal/bmad-parallelization-agents/main/bmad-parallel-export/install-bmad-parallel.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/marlonvidal/bmad-parallelization-agents/main/v4/install.sh)
 ```
 
 Share this with anyone who wants to use your parallel BMAD agents!
@@ -49,7 +49,7 @@ Share this with anyone who wants to use your parallel BMAD agents!
 Before sharing, you can test the installation:
 
 ```bash
-cd bmad-parallel-export
+cd v4
 ./test-install.sh
 ```
 

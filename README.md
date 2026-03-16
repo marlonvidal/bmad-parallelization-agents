@@ -9,7 +9,7 @@
 Install these custom BMAD agents in your project:
 
 ```bash
-bash <(curl -fsSL "https://raw.githubusercontent.com/marlonvidal/bmad-parallelization-agents/main/bmad-parallel-export/install-bmad-parallel.sh?$(date +%s)")
+bash <(curl -fsSL "https://raw.githubusercontent.com/marlonvidal/bmad-parallelization-agents/main/v4/install.sh?$(date +%s)")
 ```
 
 > **Note:** The `?$(date +%s)` parameter ensures you always get the latest version by bypassing any caches.
@@ -113,17 +113,18 @@ This repository serves as a **distribution point** for the custom BMAD agents:
 ```
 bmad-parallelization-agents/
 ├── README.md                    ← You are here
-├── .bmad-core/                  ← Reference BMAD configuration
+├── .bmad-core/                  ← Reference BMAD v4 configuration
 │   └── agents/                  ← Original custom agents (source)
 ├── .cursor/                     ← Cursor IDE configuration
-└── bmad-parallel-export/        ← Distribution package
-    ├── README.md                ← Package documentation
-    ├── install-bmad-parallel.sh ← Installation script
-    ├── architect.md             ← Custom agents (copied for distribution)
-    ├── pm.md
-    ├── po.md
-    ├── developer-front.md
-    └── developer-back.md
+├── v4/                          ← BMAD v4 distribution package
+│   ├── install.sh               ← Installation script
+│   ├── architect.md             ← Custom agents (copied for distribution)
+│   ├── pm.md
+│   ├── po.md
+│   ├── developer-front.md
+│   └── developer-back.md
+└── v6/                          ← BMAD v6 distribution package (coming soon)
+    └── README.md
 ```
 
 ---
@@ -144,7 +145,7 @@ For developers wanting to understand the implementation details, check the sourc
 Want to test locally before installing in your actual project?
 
 ```bash
-cd bmad-parallel-export
+cd v4
 ./test-install.sh
 ```
 
@@ -157,7 +158,7 @@ This creates a test project and verifies the installation works correctly.
 If you pull updates to this repository, just re-run the installation command in your project:
 
 ```bash
-bash <(curl -fsSL "https://raw.githubusercontent.com/marlonvidal/bmad-parallelization-agents/main/bmad-parallel-export/install-bmad-parallel.sh?$(date +%s)")
+bash <(curl -fsSL "https://raw.githubusercontent.com/marlonvidal/bmad-parallelization-agents/main/v4/install.sh?$(date +%s)")
 ```
 
 Your existing agents will be backed up automatically.
@@ -188,9 +189,9 @@ Your existing agents will be backed up automatically.
 
 ## 🆘 Support
 
-- **Installation Issues**: See [README-export.md](bmad-parallel-export/README-export.md)
-- **Understanding the Agents**: See [OVERVIEW.txt](bmad-parallel-export/OVERVIEW.txt)
-- **Quick Setup**: See [QUICKSTART.md](bmad-parallel-export/QUICKSTART.md)
+- **Installation Issues**: See [README-export.md](v4/README-export.md)
+- **Understanding the Agents**: See [OVERVIEW.txt](v4/OVERVIEW.txt)
+- **Quick Setup**: See [QUICKSTART.md](v4/QUICKSTART.md)
 
 ---
 
@@ -210,7 +211,7 @@ Your existing agents will be backed up automatically.
 Install in your BMAD project now:
 
 ```bash
-bash <(curl -fsSL "https://raw.githubusercontent.com/marlonvidal/bmad-parallelization-agents/main/bmad-parallel-export/install-bmad-parallel.sh?$(date +%s)")
+bash <(curl -fsSL "https://raw.githubusercontent.com/marlonvidal/bmad-parallelization-agents/main/v4/install.sh?$(date +%s)")
 ```
 
 ---
