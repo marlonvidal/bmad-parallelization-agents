@@ -18,13 +18,18 @@ Run from the root of your BMAD v6 project. The `?$(date +%s)` parameter bypasses
 
 ## What Gets Installed
 
-Three files are placed into your project's `bmad-create-epics-and-stories` workflow:
+Six files are placed into your project's `bmad-create-epics-and-stories` workflow:
 
 | File | Target Path | What Changes |
 |------|-------------|--------------|
-| `step-02-design-epics.md` | `_bmad/bmm/workflows/3-solutioning/bmad-create-epics-and-stories/steps/` | Epics are classified with an **Implementation Domain** (`Full-Stack`, `Backend-Only`, `Frontend-Only`, `Non-Technical`) |
-| `step-03-create-stories.md` | `_bmad/bmm/workflows/3-solutioning/bmad-create-epics-and-stories/steps/` | Full-Stack epics automatically produce **paired BE/FE stories** instead of vertical slices |
-| `epics-template.md` | `_bmad/bmm/workflows/3-solutioning/bmad-create-epics-and-stories/templates/` | Story blocks include `Story Domain`, `Paired Story`, `Data Contract`, and `Blocking Dependencies` fields |
+| `step-02-design-epics.md` | `.../steps/` | Epics are classified with an **Implementation Domain** (`Full-Stack`, `Backend-Only`, `Frontend-Only`, `Non-Technical`) |
+| `step-03-create-stories.md` | `.../steps/` | Full-Stack epics automatically produce **paired BE/FE stories** instead of vertical slices |
+| `step-04-final-validation.md` | `.../steps/` | Validation + optional **`[J] Sync to Jira`** at the end of the workflow |
+| `epics-template.md` | `.../templates/` | Story blocks include `Story Domain`, `Paired Story`, `Data Contract`, and `Blocking Dependencies` fields |
+| `jira-utils.md` | `.../ ` | Jira MCP patterns reference used by step-04 |
+| `JIRA-SETUP.md` | `.../` | One-time Jira MCP setup guide |
+
+All files install into: `_bmad/bmm/3-solutioning/bmad-create-epics-and-stories/`
 
 ---
 
@@ -71,6 +76,58 @@ Each epic now includes an **Implementation Domain** that controls how stories ar
 - Vertical-slice stories for Full-Stack features are **FORBIDDEN**
 - Single-domain epics: unchanged behavior
 
+### Step 4 — Final Validation (new)
+- Validates FR coverage, story quality, dependency ordering, and parallel pair correctness
+- Adds an optional **`[J] Sync to Jira`** menu item at the end
+- Selecting `[J]` syncs all approved epics and stories to Jira (see below)
+
+---
+
+## Optional: Jira Integration
+
+Jira sync is **disabled by default** and has no effect if not configured. It requires a Jira MCP server to be set up in Cursor.
+
+### How It Works
+
+At the end of Step 4, the workflow presents:
+
+```
+[J] Sync to Jira (optional)   [C] Complete Workflow
+```
+
+When `[J]` is selected:
+1. Checks `~/.cursor/mcp.json` for a configured Jira MCP server
+2. Reads your Jira config from `_bmad/bmm/config.yaml` (or prompts if missing)
+3. Parses the approved `epics.md` and creates Jira Epics and Stories
+4. Parallel BE/FE pairs are synced as separate Jira Stories with Data Contract and Paired Story fields in their descriptions
+5. Saves a mapping file at `{output_folder}/jira-mapping.yaml`
+6. Displays a summary table with clickable Jira links
+
+### Jira Config (add to `_bmad/bmm/config.yaml`)
+
+```yaml
+jira:
+  enabled: auto-detect
+  projectKey: PROJ         # your Jira project key
+  baseUrl: https://your-company.atlassian.net
+  mappingFile: "{output_folder}/jira-mapping.yaml"
+  issueTypes:
+    epic: Epic
+    story: Story
+  defaultAssignee: null
+  labels: []
+```
+
+### Setup Guide
+
+Full setup instructions (API token, MCP server install, Cursor config):
+
+```
+_bmad/bmm/3-solutioning/bmad-create-epics-and-stories/JIRA-SETUP.md
+```
+
+This file is installed by the installer. Setup takes about 15-20 minutes (one-time).
+
 ---
 
 ## Prerequisites
@@ -87,7 +144,7 @@ The installer backs up your original files with a timestamp before overwriting. 
 
 ```bash
 # Backup is at:
-_bmad/bmm/workflows/3-solutioning/bmad-create-epics-and-stories/.backup-YYYYMMDD-HHMMSS/
+_bmad/bmm/3-solutioning/bmad-create-epics-and-stories/.backup-YYYYMMDD-HHMMSS/
 ```
 
 Copy the backed-up files back to `steps/` and `templates/` to restore originals.

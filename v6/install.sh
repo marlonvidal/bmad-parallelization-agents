@@ -33,13 +33,21 @@ NC='\033[0m'
 RAW_REPO_URL="https://raw.githubusercontent.com/marlonvidal/bmad-parallelization-agents/main/v6/workflows"
 
 # Target path inside a BMAD v6 project (relative to project root)
-WORKFLOW_TARGET="_bmad/bmm/workflows/3-solutioning/bmad-create-epics-and-stories"
+WORKFLOW_TARGET="_bmad/bmm/3-solutioning/bmad-create-epics-and-stories"
 
 # Files to download — sub-paths relative to WORKFLOW_TARGET (and to RAW_REPO_URL)
 declare -a WORKFLOW_FILES=(
     "steps/step-02-design-epics.md"
     "steps/step-03-create-stories.md"
+    "steps/step-04-final-validation.md"
     "templates/epics-template.md"
+    "jira-utils.md"
+)
+
+# Documentation files placed at the workflow root (not inside steps/ or templates/)
+# Source path is relative to RAW_REPO_URL parent (v6/)
+declare -a DOC_FILES=(
+    "JIRA-SETUP.md"
 )
 
 ################################################################################
@@ -69,15 +77,15 @@ main() {
     # Step 1: Verify this is a BMAD v6 project
     print_step "Step 1: Verifying BMAD v6 installation..."
 
-    if [ ! -d "_bmad/bmm/workflows" ]; then
-        print_error "BMAD v6 not detected — '_bmad/bmm/workflows/' directory not found."
+    if [ ! -d "_bmad/bmm/3-solutioning" ]; then
+        print_error "BMAD v6 not detected — '_bmad/bmm/3-solutioning/' directory not found."
         echo ""
         echo "This installer requires a BMAD v6 project."
         echo "Please run it from the root of a project where BMAD v6 is already installed."
         echo "Install BMAD v6 first: https://docs.bmad-method.org/how-to/install-bmad"
         exit 1
     fi
-    print_success "BMAD v6 detected: _bmad/bmm/workflows/ found"
+    print_success "BMAD v6 detected: _bmad/bmm/3-solutioning/ found"
 
     if [ ! -d "${WORKFLOW_TARGET}/steps" ]; then
         print_error "bmad-create-epics-and-stories workflow not found at: ${WORKFLOW_TARGET}/steps"
@@ -158,6 +166,36 @@ main() {
     done
     echo ""
 
+    # Step 4b: Download and install documentation files (workflow root level)
+    print_step "Step 4b: Downloading Jira integration documentation..."
+
+    # DOC_FILES source is one level up from RAW_REPO_URL (v6/ root)
+    DOC_RAW_URL="${RAW_REPO_URL%/workflows}"
+
+    for doc_file in "${DOC_FILES[@]}"; do
+        FILE_URL="${DOC_RAW_URL}/${doc_file}"
+        TARGET_FILE="${WORKFLOW_TARGET}/${doc_file}"
+
+        print_info "Downloading: ${doc_file}..."
+
+        if [ "$DOWNLOAD_CMD" = "curl" ]; then
+            if curl -fsSL "$FILE_URL" -o "$TARGET_FILE"; then
+                print_success "Installed: ${doc_file}"
+            else
+                print_error "Failed to download: ${doc_file}"
+                DOWNLOAD_FAILED=true
+            fi
+        elif [ "$DOWNLOAD_CMD" = "wget" ]; then
+            if wget -q "$FILE_URL" -O "$TARGET_FILE"; then
+                print_success "Installed: ${doc_file}"
+            else
+                print_error "Failed to download: ${doc_file}"
+                DOWNLOAD_FAILED=true
+            fi
+        fi
+    done
+    echo ""
+
     # Step 5: Summary
     print_step "Installation Summary"
     echo ""
@@ -183,9 +221,12 @@ main() {
     echo -e "${GREEN}================================================${NC}"
     echo ""
     echo "Files installed into: ${WORKFLOW_TARGET}/"
-    echo "  • steps/step-02-design-epics.md   — epics now classified by Implementation Domain"
-    echo "  • steps/step-03-create-stories.md — Full-Stack epics generate paired BE/FE stories"
-    echo "  • templates/epics-template.md     — story blocks include parallel delivery fields"
+    echo "  • steps/step-02-design-epics.md      — epics now classified by Implementation Domain"
+    echo "  • steps/step-03-create-stories.md    — Full-Stack epics generate paired BE/FE stories"
+    echo "  • steps/step-04-final-validation.md  — validation + optional [J] Sync to Jira menu"
+    echo "  • templates/epics-template.md        — story blocks include parallel delivery fields"
+    echo "  • jira-utils.md                      — Jira MCP patterns reference"
+    echo "  • JIRA-SETUP.md                      — one-time Jira setup guide"
     echo ""
     echo "What changes in your workflow:"
     echo "  • Step 2 (Design Epics): each epic gets an Implementation Domain tag"
@@ -193,7 +234,12 @@ main() {
     echo "  • Step 3 (Create Stories): Full-Stack epics automatically produce paired stories:"
     echo "    Story N.M-BE (API + DB, defines Data Contract)"
     echo "    Story N.M-FE (UI/UX using mocked contract — no BE dependency)"
+    echo "  • Step 4 (Final Validation): optional [J] Sync to Jira at the end"
     echo "  • No vertical-slice stories for Full-Stack features"
+    echo ""
+    echo "Optional Jira Integration:"
+    echo "  Jira sync is disabled by default. To enable, follow the setup guide:"
+    echo "  ${WORKFLOW_TARGET}/JIRA-SETUP.md"
     echo ""
     echo "To revert to originals, restore from: ${BACKUP_DIR}"
     echo ""
