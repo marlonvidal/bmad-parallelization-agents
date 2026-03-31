@@ -33,7 +33,10 @@ NC='\033[0m'
 RAW_REPO_URL="https://raw.githubusercontent.com/marlonvidal/bmad-parallelization-agents/main/v6/workflows"
 
 # Target path inside a BMAD v6 project (relative to project root)
-WORKFLOW_TARGET="_bmad/bmm/3-solutioning/bmad-create-epics-and-stories"
+# Auto-detected in main() — two known BMAD v6 layouts are supported:
+#   Layout A (no workflows/ layer): _bmad/bmm/3-solutioning/...
+#   Layout B (with workflows/ layer): _bmad/bmm/workflows/3-solutioning/...
+WORKFLOW_TARGET=""
 
 # Files to download — sub-paths relative to WORKFLOW_TARGET (and to RAW_REPO_URL)
 declare -a WORKFLOW_FILES=(
@@ -77,19 +80,42 @@ main() {
     # Step 1: Verify this is a BMAD v6 project
     print_step "Step 1: Verifying BMAD v6 installation..."
 
-    if [ ! -d "_bmad/bmm/3-solutioning" ]; then
-        print_error "BMAD v6 not detected — '_bmad/bmm/3-solutioning/' directory not found."
+    if [ ! -d "_bmad" ]; then
+        print_error "BMAD v6 not detected — '_bmad/' directory not found."
         echo ""
         echo "This installer requires a BMAD v6 project."
         echo "Please run it from the root of a project where BMAD v6 is already installed."
         echo "Install BMAD v6 first: https://docs.bmad-method.org/how-to/install-bmad"
         exit 1
     fi
-    print_success "BMAD v6 detected: _bmad/bmm/3-solutioning/ found"
+    print_success "BMAD v6 detected: _bmad/ found"
+
+    # Auto-detect the bmm layout — two known variants exist:
+    #   Layout A: _bmad/bmm/3-solutioning/...          (no workflows/ layer)
+    #   Layout B: _bmad/bmm/workflows/3-solutioning/... (with workflows/ layer)
+    if [ -d "_bmad/bmm/workflows/3-solutioning" ]; then
+        WORKFLOW_TARGET="_bmad/bmm/workflows/3-solutioning/bmad-create-epics-and-stories"
+        print_success "Detected bmm layout: _bmad/bmm/workflows/3-solutioning/"
+    elif [ -d "_bmad/bmm/3-solutioning" ]; then
+        WORKFLOW_TARGET="_bmad/bmm/3-solutioning/bmad-create-epics-and-stories"
+        print_success "Detected bmm layout: _bmad/bmm/3-solutioning/"
+    else
+        print_error "BMM solutioning phase not found."
+        echo ""
+        echo "Checked:"
+        echo "  _bmad/bmm/workflows/3-solutioning/  (not found)"
+        echo "  _bmad/bmm/3-solutioning/             (not found)"
+        echo ""
+        echo "This workflow is installed by the BMad Method module (bmm)."
+        echo "Ensure the bmm module is installed in your BMAD v6 project, then re-run this installer."
+        exit 1
+    fi
 
     if [ ! -d "${WORKFLOW_TARGET}/steps" ]; then
         print_error "bmad-create-epics-and-stories workflow not found at: ${WORKFLOW_TARGET}/steps"
-        echo "Please ensure the BMad Method module (bmm) is installed."
+        echo ""
+        echo "The bmm solutioning phase was found but the bmad-create-epics-and-stories workflow is missing."
+        echo "Ensure the bmm module is fully installed, then re-run this installer."
         exit 1
     fi
     print_success "bmad-create-epics-and-stories workflow found"
